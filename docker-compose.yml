@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+    backend:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "4000:4000"
+        environment:
+            MYSQL_HOST: mysql
+            MYSQL_USER: root
+            MYSQL_PASSWORD: rootpassword
+            MYSQL_DB: my_database
+            MONGO_URI: mongodb://mongo:27017
+        depends_on:
+            - mysql
+            - mongo
+
+    mysql:
+        image: mysql:8.0
+        container_name: mysql-container
+        ports:
+            - "3307:3307"
+        environment:
+            MYSQL_ROOT_PASSWORD: rootpassword
+            MYSQL_DATABASE: my_database
+        volumes:
+            - mysql_data:/var/lib/mysql
+
+    mongo:
+        image: mongo:6.0
+        container_name: mongo-container
+        ports:
+            - "27017:27017"
+        volumes:
+            - mongo_data:/data/db
+
+volumes:
+    mysql_data:
+    mongo_data:
