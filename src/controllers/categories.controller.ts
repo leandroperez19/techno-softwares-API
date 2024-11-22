@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { Category } from "../models/category.model";
+import { saveLogService } from "../services/logService";
 
 export const createCategory = async (req: Request, res: Response) => {
-    const { name, description } = req.body;
+    const { name, description, userId } = req.body;
 
     try {
         const savedCategory = await Category.create({
@@ -13,6 +14,12 @@ export const createCategory = async (req: Request, res: Response) => {
         res.status(201).json({
             code: "success",
             category: savedCategory,
+        });
+
+        saveLogService({
+            description: `Category ${savedCategory.get("name")} created with ID: ${savedCategory.get("id")}`,
+            module: "Categories",
+            userId,
         });
     } catch (e) {
         if (e.name === "SequelizeUniqueConstraintError") {

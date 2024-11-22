@@ -3,7 +3,9 @@ import { authRequired } from "../middlewares/validateToken";
 import {
     createSale,
     getSales,
+    getSalesByCategory,
     getSalesByCurrency,
+    getSalesOverTime,
 } from "../controllers/sales.controller";
 import { validateSchema } from "../middlewares/validator";
 import { createSaleSchema, getByCurrencySchema } from "../schemas/sales.schema";
@@ -22,6 +24,18 @@ router.get(
     validateSchema(getByCurrencySchema, { isQuery: true }),
     authRequired,
     getSalesByCurrency,
+);
+router.get(
+    "/sales-by-category",
+    validateSchema(getByCurrencySchema, { isQuery: true }),
+    authRequired,
+    getSalesByCategory,
+);
+router.get(
+    "/sales-overtime",
+    validateSchema(getByCurrencySchema, { isQuery: true }),
+    authRequired,
+    getSalesOverTime,
 );
 router.post(
     "/create-sale",

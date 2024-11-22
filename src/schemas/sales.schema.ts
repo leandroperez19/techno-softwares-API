@@ -42,5 +42,5 @@ export const createSaleSchema = z.object({
 });
 
 export const getByCurrencySchema = z.object({
-    date: z.enum(["month", "today", "semester", "year"]).optional(),
+    period: z.enum(["month", "today", "semester", "year"]).optional(),
 });

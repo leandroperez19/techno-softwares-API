@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import { createAccessToken } from "../libs/jwt";
 import { oneDay, today } from "../constants/dates";
 import { User } from "../models/user.model";
+import { saveLogService } from "../services/logService";
 
 export const register = async (req: Request, res: Response) => {
     try {
@@ -43,6 +44,12 @@ export const register = async (req: Request, res: Response) => {
                 updatedAt: savedUser.get("updatedAt"),
                 id: savedUser.get("id"),
             },
+        });
+
+        saveLogService({
+            description: `${savedUser.get("userName")} Just signed up`,
+            module: "Auth",
+            userId: savedUser.get("id") as number,
         });
     } catch (e) {
         console.error(e);
@@ -96,6 +103,12 @@ export const login = async (req: Request, res: Response) => {
                 updatedAt: userFound.get("updatedAt"),
                 id: userFound.get("id"),
             },
+        });
+
+        saveLogService({
+            description: `${userFound.get("userName")} Just logged In`,
+            module: "Auth",
+            userId: userFound.get("id") as number,
         });
     } catch (e) {
         console.error(e);
