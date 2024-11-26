@@ -12,7 +12,7 @@ const logModel = new mongoose.Schema(
             type: String,
             required: true,
             maxLength: 50,
-            enum: ["Auth", "Sales"],
+            enum: ["Auth", "Sales", "Categories"],
         },
         userId: {
             type: Number,
